@@ -1,0 +1,6 @@
+﻿namespace RetryFramework;
+
+class Framework
+{
+
+}
