@@ -23,7 +23,7 @@ public class Color
     public static Color Silver => new(192, 192, 192);
     public static Color DarkGray => new(63, 63, 63);
     //보라 계열
-    public static Color Purple = new(128, 0, 128);
+    public static Color Purple => new(128, 0, 128);
     public static Color Violet => new(127, 0, 255);
     public static Color Lilac => new(200, 162, 200);
     public static Color Lavender => new(230, 230, 255);
@@ -38,7 +38,7 @@ public class Color
     public static Color DarkGreen => new(0, 128, 0);
     //연두 계열
     public static Color YellowGreen => new(154, 205, 50);
-    public static Color GreenYellow = new(173, 255, 47);
+    public static Color GreenYellow => new(173, 255, 47);
     public static Color Chartreuse => new(127, 255, 0);
     public static Color GrassGreen => new(117, 166, 74);
     public static Color YellowishGreen => new(160, 176, 54);
@@ -46,7 +46,7 @@ public class Color
     //추가 예정
     //노랑 계열
     public static Color Yellow => new(255, 255, 0);
-    public static Color Turbo = new(255, 204, 33);
+    public static Color Turbo => new(255, 204, 33);
     public static Color MoonYellow => new(240, 196, 32);
     public static Color VividYellow => new(255, 227, 2);
     public static Color GoldenYellow => new(255, 140, 0);
