@@ -7,13 +7,20 @@ public class Renderer
 {
     internal static IntPtr ptr;
 
+    /// <summary>
+    /// Retry 객체를 연산합니다. 그릴수 있는 객체는 렌더링합니다.
+    /// </summary>
+    /// <param name="obj">객체</param>
+    /// <param name="opt">렌더링 옵션</param>
     internal static void RenderRetryObject(RetryObject obj, RenderOption opt)
     {
         if (obj.Hide) return;
         if (obj is Drawable drobj)
         {
-            RenderDrawableObject(drobj, opt);
-        } else if (obj is Group group)
+            drobj.rendering(CalcRenderRect(drobj,opt),opt);
+            return;
+        }
+        if (obj is Group group)
         {
             RenderOption newopt = new(
                 opt.scale_x * group.Scale.X,
@@ -30,28 +37,6 @@ public class Renderer
             {
                 RenderRetryObject(member, newopt);
             }
-        }
-    }
-
-    internal static void RenderDrawableObject(Drawable drawable,RenderOption opt)
-    {
-        //좌표계산
-        var rect = CalcRenderRect(drawable, opt);
-        switch (drawable)
-        {
-            case Rectangle rectangle:
-                SDL.SDL_SetRenderDrawColor(ptr,
-                    rectangle.FillColor.Red,
-                    rectangle.FillColor.Green,
-                    rectangle.FillColor.Blue,
-                    (byte)(rectangle.FillColor.Alpha *opt.opacity)
-                );
-                SDL.SDL_RenderFillRect(ptr, ref rect);
-                break;
-            case Image image:
-                image.Texture!.opacity = (byte)(image.Opacity * opt.opacity * 255);
-                SDL.SDL_RenderCopy(ptr, image.Texture!.ptr, ref image.Texture!.size, ref rect);
-                break;
         }
     }
 

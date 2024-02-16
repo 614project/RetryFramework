@@ -25,16 +25,17 @@ internal class FPSmanager
                 }
             }
             else frequency = value;
-           _timeofone = 10000000 / frequency;
+           _timeofone = one_ms_to_tick * 1000 / frequency;
         }
     }
     int frequency = 30; //주사율
     long _endtime;
     long _timeofone; //프레임 간격별 시간
-    long one_ms_to_tick = 10000; //1밀리초를 100나노 기준으로 변환한 값.
+    const long one_ms_to_tick = 10000; //1밀리초를 100나노 기준으로 변환한 값.
 
     internal void Reset(long start)
     {
+        FrameRate = 0;
         _endtime = start;
     }
     internal bool IsDrawNow(long time) {

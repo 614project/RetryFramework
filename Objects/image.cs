@@ -1,4 +1,5 @@
-﻿using static RetryFramework.Texture;
+﻿using RetryFramework.SDL2;
+using static RetryFramework.Texture;
 namespace RetryFramework.Objects;
 
 public class Image : Drawable
@@ -53,6 +54,11 @@ public class Image : Drawable
         }
     }
     //internal
+    internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
+    {
+        Texture!.opacity = (byte)(Opacity * opt.opacity * 255);
+        SDL.SDL_RenderCopy(Renderer.ptr, Texture!.ptr, ref Texture!.size, ref rect);
+    }
     internal override double actual_width => _texture is null ? 0 : (_texture.Width * Scale.X);
     internal override double actual_height => _texture is null ? 0 : (_texture.Height * Scale.Y);
     //private
