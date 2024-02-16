@@ -1,5 +1,4 @@
 ﻿using static RetryFramework.Types;
-
 namespace RetryFramework.Objects;
 
 public class Group: RetryObject
@@ -25,6 +24,4 @@ public class Group: RetryObject
         base.Update();
         Member.Update();
     }
-
-    
 }

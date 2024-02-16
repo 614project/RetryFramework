@@ -7,6 +7,11 @@ public class Renderer
 {
     internal static IntPtr ptr;
 
+    /// <summary>
+    /// Retry 객체를 연산합니다. 그릴수 있는 객체는 렌더링합니다.
+    /// </summary>
+    /// <param name="obj">객체</param>
+    /// <param name="opt">렌더링 옵션</param>
     internal static void RenderRetryObject(RetryObject obj, RenderOption opt)
     {
         if (obj.Hide) return;
@@ -33,6 +38,11 @@ public class Renderer
         }
     }
 
+    /// <summary>
+    /// 그릴수 있는 객체를 렌더링 합니다.
+    /// </summary>
+    /// <param name="drawable">그릴수 있는 객체</param>
+    /// <param name="opt">렌더링 옵션</param>
     internal static void RenderDrawableObject(Drawable drawable,RenderOption opt)
     {
         //좌표계산
@@ -51,6 +61,10 @@ public class Renderer
             case Image image:
                 image.Texture!.opacity = (byte)(image.Opacity * opt.opacity * 255);
                 SDL.SDL_RenderCopy(ptr, image.Texture!.ptr, ref image.Texture!.size, ref rect);
+                break;
+            case Circle circle:
+                short rad = (short)(rect.w >> 1);
+                SDL_gfx.filledCircleRGBA(ptr, (short)(rect.x+rad), (short)(rect.y+rad), rad , circle.FillColor.Red, circle.FillColor.Green, circle.FillColor.Blue, circle.FillColor.Alpha);
                 break;
         }
     }
