@@ -1,4 +1,5 @@
-﻿using static RetryFramework.Types;
+﻿using RetryFramework.SDL2;
+using static RetryFramework.Types;
 namespace RetryFramework.Objects;
 
 public abstract class Drawable : RetryObject
@@ -7,5 +8,5 @@ public abstract class Drawable : RetryObject
     public Scale RenderPosition { get; set; } = new(0.5, 0.5);
     internal abstract double actual_width { get; } //실제 렌더 너비 (그룹의 영향 안받을때)
     internal abstract double actual_height { get; } //실제 렌더 높이 (그룹의 영향 안받을때)
-
+    internal abstract void rendering(SDL.SDL_Rect rect,Renderer.RenderOption opt);
 }

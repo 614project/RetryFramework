@@ -1,14 +1,18 @@
-﻿namespace RetryFramework;
+﻿using RetryFramework.SDL2;
+
+namespace RetryFramework;
 
 public class Color
 {
-    public byte Red, Green, Blue, Alpha;
+    internal SDL.SDL_Color sdl_color;
+
+    public byte Red { get => sdl_color.r; set => sdl_color.r = value; }
+    public byte Green { get => sdl_color.g; set => sdl_color.g = value; }
+    public byte Blue { get => sdl_color.b; set => sdl_color.b = value; }
+    public byte Alpha { get => sdl_color.a; set => sdl_color.a = value; }
     public Color(byte red=255, byte green=255, byte blue=255, byte alpha=255)
     {
-        Red = red;
-        Green = green;
-        Blue = blue;
-        Alpha = alpha;
+        sdl_color = new() { r = red, g = green, b = blue, a = alpha };
     }
     public Color((double,double,double,double) color) : this(
         (byte)(color.Item1*255),
@@ -16,6 +20,7 @@ public class Color
         (byte)(color.Item3* 255),
         (byte)(color.Item4* 255)
     ) { }
+    public Color(Color copy) : this(copy.Red, copy.Green, copy.Blue, copy.Alpha) { }
     //흑백 계열
     public static Color White => new(255, 255, 255, 255);
     public static Color Black => new(0, 0, 0, 0);
@@ -53,7 +58,8 @@ public class Color
     //주황 계열
     public static Color Orange => new(255, 127, 0);
     public static Color DarkOrange => new(255, 140, 0);
-
     //암묵적 형변환
     public static implicit operator Color((byte, byte, byte, byte) color) => new(color.Item1, color.Item2, color.Item3, color.Item4);
+    //복사
+    public Color Copy => new(this);
 }
