@@ -7,12 +7,14 @@ public class Scene : RetryScene
 {
     public Scene(Action<Scene>? ready = null)
     {
-        if(ready is not null) ready(this);
+        group_of_scene = new();
         Actions = new();
+        if (ready is not null) ready(this);
     }
-    public Scene(ActionForScene<Scene>? action, Action<Scene>? ready = null) : this(ready)
+    public Scene(ActionForScene<Scene> action, Action<Scene>? ready = null)
     {
-        Actions = action ?? new();
+        Actions = action;
+        if (ready is not null) ready(this);
     }
     public ObjectList Member => group_of_scene.Member;
     public ActionForScene<Scene> Actions;
@@ -32,7 +34,7 @@ public class Scene : RetryScene
         if (Actions.Update is not null) Actions.Update(this);
         Member.Update();
     }
-    internal Group group_of_scene = new();
+    internal Group group_of_scene;
     internal override void Draw(ref SDL.SDL_Rect win_size)
     {
         SDL.SDL_RenderSetViewport(Renderer.ptr, ref win_size);

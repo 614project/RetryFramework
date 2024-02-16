@@ -3,7 +3,7 @@ namespace RetryFramework.Objects;
 
 public class ObjectList : Prepare, Release, Update
 {
-    SortedList<int, RetryObject> _objs = new();
+    SortedDictionary<int, RetryObject> _objs = new();
     /// <summary>
     /// 객체를 리스트 마지막에 추가합니다.
     /// </summary>
@@ -11,7 +11,7 @@ public class ObjectList : Prepare, Release, Update
     public void AddLast(RetryObject obj)
     {
         if (_objs.Count is 0) _objs.Add(obj.Z = 0, obj);
-        else _objs.Add(obj.Z = _objs.Max().Key + 1, obj);
+        else _objs.Add(obj.Z = _objs.Keys.Max() + 1, obj);
         add_parent(obj);
     }
     public void AddLast(IEnumerable<RetryObject> list)
@@ -25,7 +25,7 @@ public class ObjectList : Prepare, Release, Update
     public void AddFirst(RetryObject obj)
     {
         if (_objs.Count is 0) _objs.Add(obj.Z = 0, obj);
-        else _objs.Add(obj.Z = _objs.Min().Key - 1, obj);
+        else _objs.Add(obj.Z = _objs.Keys.Min() - 1, obj);
         add_parent(obj );
     }
     public void AddFirst(IEnumerable<RetryObject> list)
@@ -95,8 +95,8 @@ public class ObjectList : Prepare, Release, Update
         foreach (var obj in _objs.Values) remove_parent(obj);
         _objs.Clear();
     }
-    public IList<RetryObject> List => _objs.Values;
-    public IList<int> IndexZ => _objs.Keys;
+    public SortedDictionary<int,RetryObject>.ValueCollection List => _objs.Values;
+    public SortedDictionary<int, RetryObject>.KeyCollection IndexZ => _objs.Keys;
     /// <summary>
     /// 모든 객체에 대해 정해진 함수를 실행합니다. 객체는 위치값 순으로 함수 인자에 넘겨 실행됩니다.
     /// </summary>
