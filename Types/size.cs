@@ -50,6 +50,7 @@ public class Types
         }
         public static implicit operator (int,int)(Size size) => (size.Width,size.Height);
         public static implicit operator Size((int, int) size) => new(size.Item1, size.Item2);
+        public static implicit operator Size(int size) => new(size, size);
     }
     public class DrawableRange
     {

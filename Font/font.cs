@@ -37,7 +37,7 @@ public class Font : Prepare, Release, IDisposable
     public virtual void Dispose() => Release();
     public bool IsLoad => _ptr != IntPtr.Zero;
 
-    public Texture.FromPointer? Rendering(string Content,Color TextColor, Color? BackgroundColor,uint WarpLength = 0 ,bool Blended = true)
+    public Texture.FromMemory? Rendering(string Content,Color TextColor, Color? BackgroundColor,uint WarpLength = 0 ,bool Blended = true)
     {
         if (!IsLoad) return null;
         if (Content.Length is 0) Content = " ";
@@ -62,7 +62,7 @@ public class Font : Prepare, Release, IDisposable
             return null;
         }
 
-        return new Texture.FromPointer(texture_pointer);
+        return new Texture.FromMemory(texture_pointer);
     }
     internal IntPtr pointer => _ptr;
 
