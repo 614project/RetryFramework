@@ -22,14 +22,21 @@ public class Text : Drawable
     public Color TextColor = DefaultColor.Copy;
     public Color? BackgroundColor = null;
     public override bool Hide { get => base.Hide || Font is null; set => base.Hide = value; }
+    public string Content { get => _content; set {
+            _content = value;
+            if (_texture is not null && _texture.IsLoad) _texture.Release();
+            _texture = Font?.Rendering(_content, TextColor, BackgroundColor);
+    }}
 
     internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
     {
+        if (_texture is null) return;
         _texture.opacity = (byte)(Opacity * opt.opacity * 255);
         SDL.SDL_RenderCopy(Renderer.ptr, _texture.ptr, ref _texture.size, ref rect);
     }
     internal override double actual_width => throw new NotImplementedException();
     internal override double actual_height => throw new NotImplementedException();
 
-    private Texture.RetryTexture _texture;
+    private string _content;
+    private Texture.RetryTexture? _texture;
 }
