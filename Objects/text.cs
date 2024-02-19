@@ -26,19 +26,9 @@ public class Text : Drawable
     public string Content { get => _content; set {
             _content = value;
             if (_texture is not null && _texture.IsLoad) _texture.Release();
-            _refresh = true;
-        }
-    }
-    public override void Update()
-    {
-        base.Update();
-        _render_update();
-    }
-    public override void Prepare()
-    {
-        base.Prepare();
-        if (Font is not null && !Font.IsLoad) Font.Prepare();
-    }
+            _texture = Font?.Rendering(_content, TextColor, BackgroundColor);
+    }}
+
     internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
     {
         if (_texture is null) return;
@@ -48,13 +38,6 @@ public class Text : Drawable
     internal override double actual_width => _texture.Width * Scale.X;
     internal override double actual_height => _texture.Height * Scale.Y;
 
-    private void _render_update()
-    {
-        if (Font is null || !_refresh) return;
-        _refresh = false;
-        _texture = Font.Rendering(_content, TextColor, BackgroundColor);
-    }
-    private bool _refresh = true;
-    private string _content = DefaultContent;
+    private string _content;
     private Texture.RetryTexture? _texture;
 }
