@@ -50,7 +50,6 @@ public partial class Window : IDisposable
     public Color BackgroundColor = new();
     public int Width => _size.w;
     public int Height => _size.h;
-
     public (int X, int Y) Position { get; private set; } = (0, 0);
     /// <summary>
     /// 창 닫기를 눌렀을때 종료할지에 대한 여부입니다. (기본값은 true입니다.)
