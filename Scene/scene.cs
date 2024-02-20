@@ -1,9 +1,10 @@
-﻿using RetryFramework.Objects;
+﻿using RetryFramework.Interface;
+using RetryFramework.Objects;
 using RetryFramework.SDL2;
 
 namespace RetryFramework.Scene;
 
-public class Scene : RetryScene
+public class Scene : RetryScene, QuickAddObject
 {
     public Scene(Action<Scene>? ready = null)
     {
@@ -19,6 +20,20 @@ public class Scene : RetryScene
     public ObjectList Member => group_of_scene.Member;
     public ActionForScene<Scene> Actions;
 
+    /// <summary>
+    /// 객체를 추가합니다.
+    /// </summary>
+    /// <typeparam name="T">추가할 객체의 타입</typeparam>
+    /// <param name="ready">준비 함수</param>
+    /// <param name="z">인덱스</param>
+    /// <returns>성공시 true, 실패시 false</returns>
+    public virtual bool AddMember<T>(Action<T>? ready = null, int? z = null) where T : RetryObject
+    {
+        RetryObject obj = Convenience.CreateObject(ready);
+        if (z is int zz) return this.Member.Insert(obj, zz);
+        this.Member.AddLast(obj);
+        return true;
+    }
     public override void Prepare()
     {
         if (Actions.Prepare is not null) Actions.Prepare(this);

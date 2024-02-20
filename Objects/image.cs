@@ -20,7 +20,7 @@ public class Image : Drawable
     }
     public Image(string filepath,Action<Image>? ready = null)
     {
-        _texture = new FromPath(filepath);
+        _texture = new FromFile(filepath);
         if (ready is not null) ready(this);
     }
     public override bool Hide { get => (base.Hide | _texture is null); set => base.Hide = value; }
