@@ -163,7 +163,15 @@ internal static class SDL_mixer
 	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern void Mix_Quit();
 
-	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="frequency">주파수(Hz)</param>
+    /// <param name="format">오디오 형식</param>
+    /// <param name="channels">채널 수(1은 모노, 2는 스테레오 등)</param>
+    /// <param name="chunksize">오디오 버퍼 크기</param>
+    /// <returns>성공하면 0을 반환하고, 오류가 발생하면 -1을 반환합니다.</returns>
+    [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern int Mix_OpenAudio(
 		int frequency,
 		ushort format,
@@ -174,7 +182,14 @@ internal static class SDL_mixer
 	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern int Mix_AllocateChannels(int numchans);
 
-	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+    /// <summary>
+    /// 실제 오디오 장치 매개변수가 무엇인지 알아보세요.
+    /// </summary>
+    /// <param name="frequency">오디오 장치의 주파수(Hz)</param>
+    /// <param name="format">오디오 장치의 형식</param>
+    /// <param name="channels">오디오 장치의 채널 수</param>
+    /// <returns>오디오 장치가 열려 있으면 1을 반환하고, 그렇지 않으면 0을 반환합니다.</returns>
+    [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern int Mix_QuerySpec(
 		out int frequency,
 		out ushort format,
@@ -188,10 +203,17 @@ internal static class SDL_mixer
 		IntPtr src,
 		int freesrc
 	);
-	
-	/* IntPtr refers to a Mix_Chunk* */
-	/* This is an RWops macro in the C header. */
-	public static IntPtr Mix_LoadWAV(string file)
+
+	/* 본인이 직접 추가. */
+    [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr Mix_LoadMUS_RW(
+		IntPtr src,
+		int freesrc
+	);
+
+    /* IntPtr refers to a Mix_Chunk* */
+    /* This is an RWops macro in the C header. */
+    public static IntPtr Mix_LoadWAV(string file)
 	{
 		IntPtr rwops = SDL.SDL_RWFromFile(file, "rb");
 		return Mix_LoadWAV_RW(rwops, 1);
@@ -569,7 +591,12 @@ internal static class SDL_mixer
 	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern int Mix_Playing(int channel);
 
-	[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+    /// <summary>
+    /// 음악 스트림의 재생 상태를 확인하세요.
+    /// 음악이 현재 재생 중이면 이 함수는 1을 반환합니다. 그렇지 않으면 0을 반환합니다. 일시 정지된 음악은 현재 믹싱이 진행되지 않더라도 재생되는 것으로 간주됩니다.
+    /// </summary>
+    /// <returns>음악이 재생 중이면 0이 아닌 값을 반환하고 그렇지 않으면 0을 반환합니다.</returns>
+    [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 	public static extern int Mix_PlayingMusic();
 
 	[DllImport(nativeLibName, EntryPoint = "Mix_SetMusicCMD", CallingConvention = CallingConvention.Cdecl)]
