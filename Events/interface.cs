@@ -33,13 +33,6 @@ public interface Update
     public void Update();
 }
 /// <summary>
-/// 창 크기가 조절될때
-/// </summary>
-public interface WindowResize
-{
-    public void WindowResize();
-}
-/// <summary>
 /// 창이 움직일때
 /// </summary>
 public interface WindowMove
@@ -52,6 +45,13 @@ public interface WindowMove
 public interface WindowClose
 {
     public void WindowClose(); 
+}
+/// <summary>
+/// 장면이 갖춰야될 이벤트 목록들
+/// </summary>
+public interface SceneRequiredEvents : Resize, WindowMove, WindowClose
+{
+
 }
 /// <summary>
 /// 렌더링 용

@@ -12,7 +12,6 @@ public class Circle : Drawable
     public Circle(Action<Circle>? me = null) { me?.Invoke(this); }
     public short Radius { get; set; } = DefaultRadius;
     public Color FillColor { get; set; } = DefaultColor.Copy;
-
     internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
     {
         short rad = (short)(rect.w >> 1);
