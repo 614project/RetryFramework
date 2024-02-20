@@ -41,6 +41,8 @@ public partial class Window
     {
         //필수 초기화
         if (!_init_without_log()) { _error_push(); return false; }
+        // 필수 초기화 (로그 필요없음)
+        if (!_init_mixer()) return false;
         //사소한 초기화
         _display_init();
         _stopwatch = new();
@@ -70,6 +72,20 @@ public partial class Window
             SDL_ttf.TTF_Init() is 0
         ) return true;
         return false;
+    }
+    //SDL mixer 추가 초기화
+    bool _init_mixer()
+    {
+        if (SDL_mixer.Mix_QuerySpec(out int frequency, out ushort format, out int channels) is 0)
+        {
+            (frequency, format, channels, _) = DefaultInitValue.Audio;
+        }
+        if (SDL_mixer.Mix_OpenAudio(frequency,format,channels,DefaultInitValue.Audio.BufferSize) is -1)
+        {
+            ErrorLog += SDL_mixer.Mix_GetError();
+            return false;
+        }
+        return true;
     }
     //준비
     void _prepare()

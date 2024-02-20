@@ -4,11 +4,20 @@ namespace RetryFramework.Test;
 
 public static class Debug
 {
-    public static void VersionCheck(StreamWriter writer)
+    public static void VersionCheck(StreamWriter? writer = null)
     {
+        if (writer is null) writer = new(Console.OpenStandardOutput());
         writer.WriteLine("{1,-24} : {0}", Framework.Version, "Retry Framework Version");
         SDL.SDL_GetVersion(out var sdlver);
-        writer.WriteLine("{3,-24} : {0}.{1}.{2}", sdlver.major, sdlver.minor, sdlver.patch, "SDL2 Version");
+        writer.WriteLine("{3,-24} : {0}.{1}.{2}", sdlver.major, sdlver.minor, sdlver.patch, "SDL Version");
+        SDL_image.SDL_IMAGE_VERSION(out sdlver);
+        writer.WriteLine("{3,-24} : {0}.{1}.{2}", sdlver.major, sdlver.minor, sdlver.patch, "SDL image Version");
+        SDL_ttf.SDL_TTF_VERSION(out sdlver);
+        writer.WriteLine("{3,-24} : {0}.{1}.{2}", sdlver.major, sdlver.minor, sdlver.patch, "SDL ttf Version");
+        SDL_mixer.SDL_MIXER_VERSION(out sdlver);
+        writer.WriteLine("{3,-24} : {0}.{1}.{2}", sdlver.major, sdlver.minor, sdlver.patch, "SDL mixer Version");
+        writer.WriteLine("{3,-24} : {0}.{1}.{2}", SDL_gfx.SDL2_GFXPRIMITIVES_MAJOR, SDL_gfx.SDL2_GFXPRIMITIVES_MINOR, SDL_gfx.SDL2_GFXPRIMITIVES_MICRO, "SDL gfx Version");
+        writer.Flush();
     }
 
     public static void OSCheck(StreamWriter writer)
@@ -63,6 +72,7 @@ public static class Debug
                 if (win.ErrorLog.Pop(out string error, out var time)) print(error, time);
                 if (Texture.ErrorLog.Pop(out error, out time)) print(error, time);
                 if (Font.ErrorLog.Pop(out error, out time)) print(error, time);
+                if (Music.ErrorLog.Pop(out error,out time)) print(error, time);
                 SDL.SDL_Delay(refresh_time);
             }
             await Task.Run(() =>
