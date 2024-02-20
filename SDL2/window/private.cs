@@ -87,7 +87,7 @@ public partial class Window
         {
             if (_fps_mamager.IsDrawNow(_stopwatch.ElapsedTicks))
             {
-                _fps_mamager.Drew();
+                DeltaTime = _fps_mamager.Drew(_stopwatch.ElapsedTicks);
                 _update();
                 _draw();
             }
