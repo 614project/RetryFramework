@@ -7,6 +7,7 @@ public partial class Texture
         public FromMemory(IntPtr address)
         {
             _resource = address;
+            Prepare();
         }
         internal override nint ptr => _resource;
         IntPtr _resource;

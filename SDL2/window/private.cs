@@ -87,7 +87,7 @@ public partial class Window
         {
             if (_fps_mamager.IsDrawNow(_stopwatch.ElapsedTicks))
             {
-                _fps_mamager.Drew();
+                DeltaTime = _fps_mamager.Drew(_stopwatch.ElapsedTicks);
                 _update();
                 _draw();
             }
@@ -109,13 +109,14 @@ public partial class Window
         {
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED:
                 (this._size.w, this._size.h) = (e.data1, e.data2);
-                if (EventHandler.Resize is not null) EventHandler.Resize(this,new(e.data1, e.data2));
+                EventHandler.Resize(this);
                 break;
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
-                if (EventHandler.Move is not null) EventHandler.Move(this, new(e.data1, e.data2));
+                this.Position = (e.data1, e.data2);
+                EventHandler.WindowMove(this);
                 break;
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
-                if (EventHandler.Close is not null) EventHandler.Close(this);
+                EventHandler.WindowClose(this);
                 break;
         }
     }
@@ -146,6 +147,8 @@ public partial class Window
     }
     void _clear_hold_off_events() //보류된 이벤트 모두 처리
     {
+        // 삭제예정
+        if (bypass_rendering_stopped_when_resizing) return;
         while (SDL.SDL_PollEvent(out SDL.SDL_Event e) is not 0) _event_process(e);
     }
     //오류 추가

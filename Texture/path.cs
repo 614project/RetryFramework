@@ -4,9 +4,9 @@ namespace RetryFramework;
 
 public partial class Texture
 {
-    public class FromPath : RetryTexture
+    public class FromFile : RetryTexture
     {
-        public FromPath(string filepath)
+        public FromFile(string filepath)
         {
             _path = filepath;
         }

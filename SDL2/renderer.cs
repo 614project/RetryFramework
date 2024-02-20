@@ -17,6 +17,7 @@ public class Renderer
         if (obj.Hide) return;
         if (obj is Drawable drobj)
         {
+            if (drobj.Hide) return;
             drobj.rendering(CalcRenderRect(drobj,opt),opt);
             return;
         }
