@@ -21,7 +21,12 @@ public partial class Window
         SDL.SDL_SetEventFilter((_, eventPtr) =>
         {
             var e = (SDL.SDL_Event)System.Runtime.InteropServices.Marshal.PtrToStructure(eventPtr, typeof(SDL.SDL_Event))!;
-            if (e.type != SDL.SDL_EventType.SDL_WINDOWEVENT) return 1;
+            if (e.key.repeat != 0) return 0;
+            if (e.type != SDL.SDL_EventType.SDL_WINDOWEVENT)
+            {
+                _event_process(e);
+                return 0;
+            }
             switch (e.window.windowEvent)
             {
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED:
@@ -29,8 +34,10 @@ public partial class Window
                     _fps_mamager.Drew(_stopwatch.ElapsedTicks);
                     _update();
                     _draw();
-                    _polling_update();
-                    return 0;
+                    return 1;
+                default:
+                    _event_process(e);
+                    return 1;
             }
             return 1;
         }, IntPtr.Zero);
