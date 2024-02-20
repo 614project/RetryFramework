@@ -1,10 +1,11 @@
-﻿using RetryFramework.Interface;
+﻿using RetryFramework.Events;
+using RetryFramework.Interface;
 using RetryFramework.Objects;
 using RetryFramework.SDL2;
 
 namespace RetryFramework.Scene;
 
-public class Scene : RetryScene, QuickAddObject
+public class Scene : RetryScene, QuickAddObject, SceneRequiredEvents
 {
     public Scene(Action<Scene>? ready = null)
     {
