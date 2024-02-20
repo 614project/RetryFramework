@@ -50,5 +50,6 @@ public partial class Window : IDisposable
     public WindowEventHandler EventHandler { get; set; } = new();
     public bool IsRunning { get; private set; }
     public double RunningTime => _stopwatch.ElapsedTicks * 0.0000001;
+    public double DeltaTime { get; private set; } = 0;
     public Logger ErrorLog { get; private set; } = new();
 }
