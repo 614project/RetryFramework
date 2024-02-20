@@ -14,12 +14,14 @@ public partial class Window : IDisposable
     /// <param name="title">제목</param>
     /// <param name="x">가로 위치 (null 일경우 중앙)</param>
     /// <param name="y">세로 위치 (null 일경우 중앙)</param>
-    public Window(int width,int height, string title,int? x = null,int? y = null)
+    public Window(int width,int height, string title,int? x = null,int? y = null, bool bypass_rendering_stopped_when_resizing = false)
     {
         _size.w = width; _size.h = height;
         if (!_init()) return;
         if (!_create(title,x,y,SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE)) return;
         if (!_create_renderer()) return;
+        // 삭제 예정
+        if (this.bypass_rendering_stopped_when_resizing = bypass_rendering_stopped_when_resizing) _bypass_block_main_thread_when_window_resizing();
     }
 
     public void Run()

@@ -146,6 +146,8 @@ public partial class Window
     }
     void _clear_hold_off_events() //보류된 이벤트 모두 처리
     {
+        // 삭제예정
+        if (bypass_rendering_stopped_when_resizing) return;
         while (SDL.SDL_PollEvent(out SDL.SDL_Event e) is not 0) _event_process(e);
     }
     //오류 추가
