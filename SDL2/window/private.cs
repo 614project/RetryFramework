@@ -109,13 +109,14 @@ public partial class Window
         {
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED:
                 (this._size.w, this._size.h) = (e.data1, e.data2);
-                if (EventHandler.Resize is not null) EventHandler.Resize(this,new(e.data1, e.data2));
+                EventHandler.Resize(this);
                 break;
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
-                if (EventHandler.Move is not null) EventHandler.Move(this, new(e.data1, e.data2));
+                this.Position = (e.data1, e.data2);
+                EventHandler.WindowMove(this);
                 break;
             case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
-                if (EventHandler.Close is not null) EventHandler.Close(this);
+                EventHandler.WindowClose(this);
                 break;
         }
     }

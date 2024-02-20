@@ -1,10 +1,11 @@
-﻿using RetryFramework.Interface;
+﻿using RetryFramework.Events;
+using RetryFramework.Interface;
 using RetryFramework.Objects;
 using RetryFramework.SDL2;
 
 namespace RetryFramework.Scene;
 
-public class Scene : RetryScene, QuickAddObject
+public class Scene : RetryScene, QuickAddObject, SceneRequiredEvents
 {
     public Scene(Action<Scene>? ready = null)
     {
@@ -48,6 +49,18 @@ public class Scene : RetryScene, QuickAddObject
     {
         if (Actions.Update is not null) Actions.Update(this);
         Member.Update();
+    }
+    public virtual void Resize()
+    {
+        Member.Foreach(obj => obj.Actions.Resize?.Invoke(obj));
+    }
+    public virtual void WindowMove()
+    {
+        Member.Foreach(obj => obj.Actions.WindowMove?.Invoke(obj));
+    }
+    public virtual void WindowClose()
+    {
+        Member.Foreach(obj => obj.Actions.WindowClose?.Invoke(obj));
     }
     internal Group group_of_scene;
     internal override void Draw(ref SDL.SDL_Rect win_size)

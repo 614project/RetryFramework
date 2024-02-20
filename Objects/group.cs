@@ -1,5 +1,4 @@
-﻿using static RetryFramework.Types;
-namespace RetryFramework.Objects;
+﻿namespace RetryFramework.Objects;
 
 public class Group: RetryObject
 {
