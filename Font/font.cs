@@ -19,31 +19,6 @@ public partial class Font
                 _size = value;
                 if (IsLoad && SDL_ttf.TTF_SetFontSize(_ptr, _size) is -1) error_push();
             }
-    }}
-    public virtual int Size { get => _size; set {
-            _size = value;
-            if (IsLoad && SDL_ttf.TTF_SetFontSize(_ptr, _size) is -1) ErrorPush();
-    }}
-    public virtual void Prepare()
-    {
-        if ((_ptr = SDL_ttf.TTF_OpenFont(_path, _size)) == IntPtr.Zero) ErrorPush();
-    }
-    public virtual void Release()
-    {
-        SDL_ttf.TTF_CloseFont(_ptr);
-    }
-    public virtual void Dispose() => Release();
-    public bool IsLoad => _ptr != IntPtr.Zero;
-
-    public Texture.FromMemory? Rendering(string Content,Color TextColor, Color? BackgroundColor,uint WarpLength = 0 ,bool Blended = true)
-    {
-        if (!IsLoad) return null;
-        if (Content.Length is 0) Content = " ";
-        IntPtr temp;
-        if (BackgroundColor is null)
-        {
-            if (Blended) temp = SDL_ttf.TTF_RenderUNICODE_Blended_Wrapped(pointer, Content, TextColor.sdl_color, WarpLength);
-            else temp = SDL_ttf.TTF_RenderUNICODE_Solid_Wrapped(pointer, Content, TextColor.sdl_color, WarpLength);
         }
         public abstract void Prepare();
         public virtual void Release()
@@ -66,6 +41,25 @@ public partial class Font
             }
             else temp = SDL_ttf.TTF_RenderUNICODE_Shaded_Wrapped(pointer, Content, TextColor.sdl_color, BackgroundColor.sdl_color, WarpLength);
 
-        return new Texture.FromMemory(texture_pointer);
+            if (temp == IntPtr.Zero)
+            {
+                error_push();
+                return null;
+            }
+
+            var texture_pointer = SDL.SDL_CreateTextureFromSurface(Renderer.ptr, temp);
+            SDL.SDL_FreeSurface(temp);
+            if (texture_pointer == IntPtr.Zero)
+            {
+                error_push();
+                return null;
+            }
+
+            return new Texture.FromMemory(texture_pointer);
+        }
+        internal IntPtr pointer => _ptr;
+
+        private protected int _size;
+        private protected IntPtr _ptr = IntPtr.Zero;
     }
 }

@@ -30,7 +30,8 @@ public class Scene : RetryScene, QuickAddObject, SceneRequiredEvents
     /// <returns>성공시 true, 실패시 false</returns>
     public virtual bool AddMember<T>(Action<T>? ready = null, int? z = null) where T : RetryObject
     {
-        RetryObject obj = Convenience.CreateObject(ready);
+        RetryObject? obj = Convenience.CreateObject(ready);
+        if (obj is null) return false;
         if (z is int zz) return this.Member.Insert(obj, zz);
         this.Member.AddLast(obj);
         return true;

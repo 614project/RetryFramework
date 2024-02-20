@@ -50,14 +50,15 @@ public class ActionForObject<T> where T : RetryObject
 
 public static class Convenience
 {
-    public static RetryObject CreateObject<T>(Action<T>? ready = null) where T : RetryObject
+    public static RetryObject? CreateObject<T>(Action<T>? ready = null) where T : RetryObject
     {
         Type type = typeof(T);
-        RetryObject obj = default!;
+        RetryObject? obj = null;
         if (typeof(Circle) == type) obj = new Circle((Action<Circle>)ready!);
-        if (typeof(Rectangle) == type) obj = new Rectangle((Action<Rectangle>)ready!);
-        if (typeof(Image) == type) obj = new Image((Action<Image>)ready!);
-        if (typeof(Group) == type) obj = new Group((Action<Group>)ready!);
+        else if (typeof(Rectangle) == type) obj = new Rectangle((Action<Rectangle>)ready!);
+        else if (typeof(Image) == type) obj = new Image((Action<Image>)ready!);
+        else if (typeof(Group) == type) obj = new Group((Action<Group>)ready!);
+        else if (typeof(Text) == type) obj = new Text((Action<Text>)ready!);
         return obj;
     }
 }
