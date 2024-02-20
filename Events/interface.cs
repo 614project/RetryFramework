@@ -47,13 +47,6 @@ public interface WindowClose
     public void WindowClose(); 
 }
 /// <summary>
-/// 장면이 갖춰야될 이벤트 목록들
-/// </summary>
-public interface SceneRequiredEvents : Resize, WindowMove, WindowClose
-{
-
-}
-/// <summary>
 /// 렌더링 용
 /// </summary>
 internal interface Rendering

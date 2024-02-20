@@ -62,3 +62,17 @@ public static class Convenience
         return obj;
     }
 }
+
+public static class Convenience
+{
+    public static RetryObject CreateObject<T>(Action<T>? ready = null) where T : RetryObject
+    {
+        Type type = typeof(T);
+        RetryObject obj = default!;
+        if (typeof(Circle) == type) obj = new Circle((Action<Circle>)ready!);
+        if (typeof(Rectangle) == type) obj = new Rectangle((Action<Rectangle>)ready!);
+        if (typeof(Image) == type) obj = new Image((Action<Image>)ready!);
+        if (typeof(Group) == type) obj = new Group((Action<Group>)ready!);
+        return obj;
+    }
+}
