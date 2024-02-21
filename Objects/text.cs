@@ -7,6 +7,7 @@ public class Text : Drawable
 {
     // static
     public static Color DefaultColor = Color.Black;
+    public static Color? DefaultBackgroundColor = null;
     public static string DefaultContent = "";
     // non-static
     /// <summary>
@@ -19,9 +20,14 @@ public class Text : Drawable
         ready?.Invoke(this);
         if (this.Font is null) Font = new FromFile(path);
     }
+    public Text(string content,RetryFont? font = null)
+    {
+        this.Content = content;
+        Font = font ?? new FromFile();
+    }
     public RetryFont? Font = null;
     public Color TextColor = DefaultColor.Copy;
-    public Color? BackgroundColor = null;
+    public Color? BackgroundColor = DefaultBackgroundColor;
     public override bool Hide { get => base.Hide || Font is null; set => base.Hide = value; }
     public string Content { get => _content; set {
             _content = value;
@@ -37,7 +43,10 @@ public class Text : Drawable
     public override void Prepare()
     {
         base.Prepare();
-        if (Font is not null && !Font.IsLoad) Font.Prepare();
+        if (Font is not null && !Font.IsLoad)
+        {
+            Font.Prepare();
+        }
     }
     internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
     {

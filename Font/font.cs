@@ -59,7 +59,7 @@ public partial class Font
         }
         internal IntPtr pointer => _ptr;
 
-        private protected int _size;
+        private protected int _size = DefaultSize;
         private protected IntPtr _ptr = IntPtr.Zero;
     }
 }

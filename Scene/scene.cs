@@ -32,6 +32,10 @@ public class Scene : RetryScene, QuickAddObject, SceneRequiredEvents
     {
         RetryObject? obj = Convenience.CreateObject(ready);
         if (obj is null) return false;
+        return AddMember(obj, z);
+    }
+    public virtual bool AddMember(RetryObject obj,int? z = null)
+    {
         if (z is int zz) return this.Member.Insert(obj, zz);
         this.Member.AddLast(obj);
         return true;
