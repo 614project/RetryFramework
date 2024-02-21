@@ -9,6 +9,8 @@ public class Music : Playable
 {
     //static
     public static Logger ErrorLog { get; internal set; } = new();
+    public static Music? Load(string path) => FromFile(path);
+    public static Music? Load(byte[] binary) => FromBinary(binary);
     public static Music? FromFile(string path) => new(path);
     public static Music? FromBinary(byte[] binary) => new(binary);
     /// <summary>
