@@ -26,7 +26,7 @@ public partial class Window
             {
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED:
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
-                    _fps_mamager.Drew(_stopwatch.ElapsedTicks);
+                    _fps_mamager.drew(_stopwatch.ElapsedTicks);
                     _update();
                     _draw();
                     _polling_update();

@@ -1,8 +1,9 @@
-﻿using RetryFramework.SDL2;
+﻿using RetryFramework.Interface;
+using RetryFramework.SDL2;
 using static RetryFramework.Texture;
 namespace RetryFramework.Objects;
 
-public class Image : Drawable
+public class Image : Drawable, Rotatable
 {
     /// <summary>
     /// 이미지를 렌더링하는 객체입니다.
@@ -53,11 +54,15 @@ public class Image : Drawable
             if(value is not null) value.Prepare();
         }
     }
+    public virtual double Rotation { get; set; } = 0;
     //internal
     internal override void rendering(SDL.SDL_Rect rect, Renderer.RenderOption opt)
     {
         Texture!.opacity = (byte)(Opacity * opt.opacity * 255);
-        SDL.SDL_RenderCopy(Renderer.ptr, Texture!.ptr, ref Texture!.size, ref rect);
+        if(SDL.SDL_RenderCopyEx(Renderer.ptr, Texture!.ptr, ref Texture!.size, ref rect,Rotation,IntPtr.Zero,SDL.SDL_RendererFlip.SDL_FLIP_NONE) is not 0)
+        {
+            error_push();
+        }
     }
     internal override double actual_width => _texture is null ? 0 : (_texture.Width * Scale.X);
     internal override double actual_height => _texture is null ? 0 : (_texture.Height * Scale.Y);

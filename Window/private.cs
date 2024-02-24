@@ -97,13 +97,13 @@ public partial class Window
     {
         _stopwatch.Reset();
         _stopwatch.Start();
-        _fps_mamager.Reset(_stopwatch.ElapsedTicks);
+        _fps_mamager.reset(_stopwatch.ElapsedTicks);
 
         while(IsRunning)
         {
             if (_fps_mamager.IsDrawNow(_stopwatch.ElapsedTicks))
             {
-                DeltaTime = _fps_mamager.Drew(_stopwatch.ElapsedTicks);
+                DeltaTime = _fps_mamager.drew(_stopwatch.ElapsedTicks);
                 _update();
                 _draw();
             }
@@ -138,7 +138,7 @@ public partial class Window
     }
     void _polling_update()
     {
-        if (SDL.SDL_PollEvent(out SDL.SDL_Event e) is 0) _fps_mamager.Waitable(_stopwatch.ElapsedTicks);
+        if (SDL.SDL_PollEvent(out SDL.SDL_Event e) is 0) _fps_mamager.waitable(_stopwatch.ElapsedTicks);
         else _event_process(e);
     }
     void _update()

@@ -31,7 +31,6 @@ public class Text : Drawable
     public override bool Hide { get => base.Hide || Font is null; set => base.Hide = value; }
     public string Content { get => _content; set {
             _content = value;
-            if (_texture is not null && _texture.IsLoad) _texture.Release();
             _refresh = true;
         }
     }
