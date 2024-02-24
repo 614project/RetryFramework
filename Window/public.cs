@@ -21,8 +21,6 @@ public partial class Window : IDisposable
         if (!_init()) return;
         if (!_create(title,x,y,SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE)) return;
         if (!_create_renderer()) return;
-        // 삭제 예정
-        if (this.bypass_rendering_stopped_when_resizing = bypass_rendering_stopped_when_resizing) _bypass_block_main_thread_when_window_resizing();
     }
 
     public void Run(bool CallResize = true)
@@ -50,6 +48,7 @@ public partial class Window : IDisposable
     public Color BackgroundColor = new();
     public int Width => _size.w;
     public int Height => _size.h;
+
     public (int X, int Y) Position { get; private set; } = (0, 0);
     /// <summary>
     /// 창 닫기를 눌렀을때 종료할지에 대한 여부입니다. (기본값은 true입니다.)
@@ -59,7 +58,7 @@ public partial class Window : IDisposable
     public ushort FrameRate { get => _fps_mamager.FrameRate; set => _fps_mamager.FrameRate = value; }
     public bool IsRunning { get; private set; }
 
-    public double RunningTime => _stopwatch.ElapsedTicks * 0.0000001;
+    public static double RunningTime => stopwatch.ElapsedTicks * 0.0000001;
     public double DeltaTime { get; private set; } = 0;
     public Logger ErrorLog { get; private set; } = new();
     public InitOption DefaultInitValue { get; set; } = new();

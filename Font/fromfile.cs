@@ -6,9 +6,9 @@ public partial class Font
 {
     public class FromFile : RetryFont
     {
-        public FromFile(string? path = null)
+        public FromFile(string path)
         {
-            _path = path ?? DefaultPath;
+            _path = path;
         }
         public virtual string Path
         {

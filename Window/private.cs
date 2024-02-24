@@ -7,7 +7,6 @@ public partial class Window
 {
     IntPtr _winptr = IntPtr.Zero, _renderptr = IntPtr.Zero;
     SDL.SDL_Rect _size = default;
-    Stopwatch _stopwatch = default;
     FPSmanager _fps_mamager = new();
     //창 생성
     bool _create(string name,int? x,int? y,SDL.SDL_WindowFlags flag)
@@ -45,7 +44,7 @@ public partial class Window
         if (!_init_mixer()) return false;
         //사소한 초기화
         _display_init();
-        _stopwatch = new();
+        stopwatch = new();
         return true;
     }
     //SDL 초기화 (로그 없음)
@@ -95,16 +94,17 @@ public partial class Window
     //루프
     void _running_loop()
     {
-        _stopwatch.Reset();
-        _stopwatch.Start();
-        _fps_mamager.reset(_stopwatch.ElapsedTicks);
+        stopwatch.Reset();
+        stopwatch.Start();
+        _fps_mamager.reset(stopwatch.ElapsedTicks);
 
         while(IsRunning)
         {
-            if (_fps_mamager.IsDrawNow(_stopwatch.ElapsedTicks))
+            if (_fps_mamager.IsDrawNow(stopwatch.ElapsedTicks))
             {
-                DeltaTime = _fps_mamager.drew(_stopwatch.ElapsedTicks);
+                DeltaTime = _fps_mamager.drew(stopwatch.ElapsedTicks);
                 _update();
+                Animation.Queue.Update();
                 _draw();
             }
             _polling_update();
@@ -138,7 +138,7 @@ public partial class Window
     }
     void _polling_update()
     {
-        if (SDL.SDL_PollEvent(out SDL.SDL_Event e) is 0) _fps_mamager.waitable(_stopwatch.ElapsedTicks);
+        if (SDL.SDL_PollEvent(out SDL.SDL_Event e) is 0) _fps_mamager.waitable(stopwatch.ElapsedTicks);
         else _event_process(e);
     }
     void _update()
@@ -163,8 +163,6 @@ public partial class Window
     }
     void _clear_hold_off_events() //보류된 이벤트 모두 처리
     {
-        // 삭제예정
-        if (bypass_rendering_stopped_when_resizing) return;
         while (SDL.SDL_PollEvent(out SDL.SDL_Event e) is not 0) _event_process(e);
     }
     //오류 추가

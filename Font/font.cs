@@ -5,9 +5,12 @@ namespace RetryFramework;
 public partial class Font 
 {
     // static
-    public static string DefaultPath = "font.ttf";
+    public static dynamic DefaultFont = null;
     public static int DefaultSize = 32;
     public static Error.Logger ErrorLog { get; private set; } = new();
+    public static Font.FromFile Load(string path) => new(path);
+    public static Font.FromBinary Load(byte[] binary) => new(binary);
+
     internal static void error_push() => ErrorLog.Push(SDL_ttf.TTF_GetError());
 
     public abstract class RetryFont : Prepare, Release, IDisposable

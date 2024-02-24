@@ -38,7 +38,8 @@ public class Types
             this.X = x;
             this.Y = y;
         }
-
+        public static implicit operator Point((int, int) pos) => new(pos.Item1, pos.Item2);
+        public static implicit operator Point(PinnedPoint pinpoint) => new(pinpoint.X, pinpoint.Y);
     }
     public class Size //크기
     {
@@ -59,6 +60,11 @@ public class Types
         {
             rect = new();
         }
-
+    }
+    // X, Y 값이 더이상 바뀌면 안되는 위치 변수
+    public record PinnedPoint(int X,int Y)
+    {
+        public static implicit operator PinnedPoint((int, int) pos) => new(pos.Item1, pos.Item2);
+        public static implicit operator PinnedPoint(Point point) => new(point.X,point.Y);
     }
 }

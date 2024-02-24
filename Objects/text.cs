@@ -20,10 +20,10 @@ public class Text : Drawable
         ready?.Invoke(this);
         if (this.Font is null) Font = new FromFile(path);
     }
-    public Text(string content,RetryFont? font = null)
+    public Text(string content,RetryFont font)
     {
         this.Content = content;
-        Font = font ?? new FromFile();
+        Font = font;
     }
     public RetryFont? Font = null;
     public Color TextColor = DefaultColor.Copy;
